@@ -21,7 +21,7 @@ implement variable frame sizing to best utilize bandwidth.
 
 These stages can be worked on in parallel
 
-# Wireless Link
+### Wireless Link
 
 1. Design Software Interface
 2. Characterize TX/RX
@@ -32,13 +32,13 @@ These stages can be worked on in parallel
 7. Interface Functions
 8. Variable packet size
 
-# Encryption
+### Encryption
 
 1. Design Software Interface
 2. Pseudorandom Generator
 3. RSA Implementation
 
-# Chat Client
+### Chat Client
 
 1. Design Display - We need red text for the motherland
 2. Application Layer Connection
