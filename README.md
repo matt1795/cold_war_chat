@@ -26,7 +26,7 @@ These stages can be worked on in parallel
 1. Design Software Interface
 2. Characterize TX/RX
 3. Hardware Design
-4. [Packet Framing](./docs/packey_framing.md)
+4. [Packet Framing](./docs/packet_framing.md)
 5. Reliable Data Transfer
 6. Connection Establishment
 7. Interface Functions
