@@ -8,7 +8,7 @@ russian spies.
 
 The project is for our class project for Real Time Embedded Systems at BCIT.
 
-Target DSP: TMS320F38028
+Target DSP: TMS320F28027
 
 Under the hood, we have TX and RX modules transmitting on the 433MHz frequency
 band. These modules are bare bones quality, susceptible to interference, and
@@ -24,13 +24,14 @@ These stages can be worked on in parallel
 ### Wireless Link
 
 1. Design Software Interface
-2. Characterize TX/RX
+2. [Characterize TX/RX](docs/tx_rx.md)
 3. [Hardware Design](docs/hardware_design.md)
 4. [Packet Framing](docs/packet_framing.md)
-5. Reliable Data Transfer
-6. Connection Establishment
-7. Interface Functions
-8. Variable packet size
+5. Error Detection
+6. Reliable Data Transfer
+7. Connection Establishment
+8. Interface Functions
+9. Variable packet size
 
 ### Encryption
 
