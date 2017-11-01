@@ -16,3 +16,7 @@ syncronization in the last bit of syncronization. (1/10kHz = 100us);
 
 Transmission rate is averaged from the first three pulses, and locking point is
 half the average of the high time of the same pulses.
+
+## Packet Structure
+
+![Packet Structure](../images/packet.png)
