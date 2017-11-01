@@ -19,4 +19,4 @@ half the average of the high time of the same pulses.
 
 ## Packet Structure
 
-![Packet Structure](../images/packet.png)
+![Packet Structure](images/packet.png)
