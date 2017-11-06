@@ -16,6 +16,10 @@
 // Internal defines
 #define PREAMBLE 0xAA
 #define POSTAMBLE 0x55
+#define RX_TX_BUFLEN
+
+// Static variables
+static int edge_count;
 
 // State of the transciever
 static enum State
@@ -26,7 +30,9 @@ static enum State
     RX_POST
 } state;
 
-// Staging buffer
+// Buffers
+static uint16_t stage_buf[DATAGRAM_BITS/MEM_LEN];
+static uint16_t 
 
 // Initialize physical layer
 int init_phy(void)
@@ -52,9 +58,32 @@ void swi_rx_gpio(void)
     switch (state) {
 	case WAIT:
 	    // Semaphore_Post(sem_channel);
-
+	    state = RX_PRE;
+	    // initialize and reset timer
+	    edge_count = 0;
+	    break;
 	case RX_PRE:
+	    if (edge_count % 2) {
+		T_samp[(edge_count - 1)/2];
+		// reset timer
+	    }
+	    else {
+		pulse_samp[edge_count/2];
+	    }
+	    if (++edge_count > 5 ){
+		int i;
+		T = 0;
+		pulse = 0;
 
+		for (i = 0; i < 3; i++) {
+		    T += T_samp[i]/6;
+		    pulse += pulse_samp[i]/6;
+		}
+		
+		// configure timer, disable GPIO int
+		state = RX_DATA;
+	    }
+	    break;
     }
     
     // toggle gpio 
@@ -64,6 +93,30 @@ void swi_rx_gpio(void)
 void swi_timer(void)
 {
     switch (state) {
-
+	case RX_PRE:	// Preamble timeout
+	    // disable timer int
+	    // congifure gpio int
+	    state = WAIT;
+	    break;
+	case RX_DATA:
+	    *(stage_buf + bit/MEM_LEN) = 0x8000 >> bit % MEM_LEN;
+	    if (++bit > DATAGRAM_BITS) 
+		state = RX_POST;
+	    
+	    break;
+	case RX_POST:
+	    *(post_buf + bit/BYTE_LEN) = 0x80 >> bit % BYTE_LEN;
+	    if (++bit > DATAGRAM_BITS + BYTE_LEN) { 
+		if (post_buf == POSTAMBLE) {
+		    // store RX BUFFER to RX FIFO
+		}
+		else {
+		    // Postamble error, Data is no good
+		    state = WAIT;
+		    // deactivate timer
+		    // enable gpio
+		}
+	    }
+	    break;
     }
 }

@@ -14,10 +14,15 @@
 #ifndef PHY_H
 #define PHY_H
 
+#include "stdint.h"
 #include "global_def.h"
 
 // Semaphore controling whether RX or TX has channel
 int sem_channel;
+
+// FIFO pointers
+uint16_t *rx_buf;
+uint16_t *tx_buf;
 
 // Initialize physical layer
 int init_phy(void);
