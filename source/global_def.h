@@ -15,4 +15,6 @@
 #define BYTE_LEN 8
 #define DATAGRAM_BITS DATAGRAM_LEN*BYTE_LEN
 
+#include "fifo.h"
+
 #endif

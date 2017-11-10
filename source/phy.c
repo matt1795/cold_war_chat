@@ -16,7 +16,6 @@
 // Internal defines
 #define PREAMBLE 0xAA
 #define POSTAMBLE 0x55
-#define RX_TX_BUFLEN
 
 // Static variables
 static int edge_count;
