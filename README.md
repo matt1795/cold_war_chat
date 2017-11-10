@@ -19,7 +19,6 @@ implement variable frame sizing to best utilize bandwidth.
 
 ## Stack
 
-<center>
     
     |:-----------:|
     | Application |
@@ -28,7 +27,6 @@ implement variable frame sizing to best utilize bandwidth.
     | Error Detection |
     | Physical |
 
-</center>
 
 ## Stages of Development:
 
