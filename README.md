@@ -17,6 +17,19 @@ need to implement half duplex communication. Initially only fixed frames will be
 used, (eg. 1packet back and forth). And later (if we somehow have time) we may
 implement variable frame sizing to best utilize bandwidth.
 
+## Stack
+
+<center>
+    
+    |:-----------:|
+    | Application |
+    | Encryption |
+    | Transport |
+    | Error Detection |
+    | Physical |
+
+</center>
+
 ## Stages of Development:
 
 These stages can be worked on in parallel
