@@ -10,11 +10,8 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#define DATAGRAM_LEN 20
-#define MEM_LEN 16
-#define BYTE_LEN 8
-#define DATAGRAM_BITS DATAGRAM_LEN*BYTE_LEN
-
-#include "fifo.h"
+#define DG_WORDS 18
+#define MSG_WORDS 16
+#define BUFLEN 4
 
 #endif

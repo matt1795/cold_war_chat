@@ -45,8 +45,8 @@ int init_phy(void)
     init_fifo(&tx_fifo, &tx_buf, BUFLEN, DATAGRAM_WORDS);
 
     // Point assign interface pointers
-    RX_FIFO = &rx_fifo;
-    TX_FIFO = &tx_fifo;
+    RX_PHY = &rx_fifo;
+    TX_PHY = &tx_fifo;
 }
 
 // RX GPIO HWI

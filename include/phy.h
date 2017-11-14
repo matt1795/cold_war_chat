@@ -22,7 +22,7 @@
 int sem_channel;
 
 // FIFO pointers
-struct fifo *RX_FIFO, *TX_FIFO;
+struct fifo *RX_PHY, *TX_PHY;
 
 // Initialize physical layer
 int init_phy(void);
