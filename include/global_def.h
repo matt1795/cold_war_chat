@@ -10,8 +10,8 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#define DG_WORDS 18
-#define MSG_WORDS 16
+#define DG_WORDS 10
+#define MSG_WORDS 8
 #define BUFLEN 4
 
 #endif
