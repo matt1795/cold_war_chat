@@ -17,9 +17,6 @@
 #define PREAMBLE 0xAA
 #define POSTAMBLE 0x55
 
-// Static variables
-static int edge_count;
-
 // State of the transciever
 static enum State
 {
@@ -29,14 +26,27 @@ static enum State
     RX_POST
 } state;
 
-// Buffers
-static uint16_t stage_buf[DATAGRAM_BITS/MEM_LEN];
-static uint16_t 
+// Static variables
+static int edge_count;
 
-// Initialize physical layer
+// Buffers
+static uint16_t stage_buf[DATAGRAM_WORDS];
+static uint16_t rx_buf[DATAGRAM_WORDS*BUFLEN]; 
+static uint16_t tx_buf[DATAGRAM_WORDS*BUFLEN]; 
+
+// fifo interfaces
+static struct fifo rx_fifo, tx_fifo;
+
+// Initialize physical layer - only run once
 int init_phy(void)
 {
+    // initialize fifo objects
+    init_fifo(&rx_fifo, &rx_buf, BUFLEN, DATAGRAM_WORDS);
+    init_fifo(&tx_fifo, &tx_buf, BUFLEN, DATAGRAM_WORDS);
 
+    // Point assign interface pointers
+    RX_FIFO = &rx_fifo;
+    TX_FIFO = &tx_fifo;
 }
 
 // RX GPIO HWI

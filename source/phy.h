@@ -16,13 +16,13 @@
 
 #include "stdint.h"
 #include "global_def.h"
+#include "fifo.h"
 
-// Semaphore controling whether RX or TX has channel
+// Semaphore controlling whether RX or TX has channel
 int sem_channel;
 
 // FIFO pointers
-uint16_t *rx_buf;
-uint16_t *tx_buf;
+struct fifo *RX_FIFO, *TX_FIFO;
 
 // Initialize physical layer
 int init_phy(void);

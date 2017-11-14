@@ -15,7 +15,7 @@
 #include <stdint.h>
 
 // Base FIFO structure used for interfacing
-struct fifo_base
+struct fifo
 {
     uint16_t *w, *r;
     int len;
@@ -24,18 +24,18 @@ struct fifo_base
 };
 
 // Initialize the FIFO
-void init_fifo(void *fifo, int len, int elem_size);
+void init_fifo(struct fifo *f, uint16_t *buf, int len, int elem_size);
 
 // Get current FIFO length
-int meas_fifo(void *fifo);
+int get_fifo_len(struct fifo *f);
 
 // Read from fifo, returns -1 if empty, else it transfers element to location
-int read_fifo(void *fifo, void *loc);
+int read_fifo(struct fifo *f, uint16_t *loc);
 
 // Write to fifo, returns -1 if full.
-int write_fifo(void *fifo, void *loc);
+int write_fifo(struct fifo *f, uint16_t *loc);
 
 // Flushes the buffer
-void flush_fifo(void *fifo);
+void flush_fifo(struct fifo *f);
 
 #endif
