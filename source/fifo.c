@@ -23,15 +23,15 @@ void init_fifo(struct fifo *f, uint16_t *buf, int len, int elem_size)
 }
 
 // Get current length of the fifo
-int meas_fifo(struct fifo *f)
+int get_fifo_len(struct fifo *f)
 {
     int diff = f->w - f->r;
 
     // Check if f has wrapped around
-    if (diff < 0);
+    if (diff < 0)
 	diff += f->len;
 
-    return diff;
+    return diff/f->elem_size;
 }
 
 // Read from fifo, returns -1 if empty, else it transfers element to location
