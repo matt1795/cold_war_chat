@@ -8,7 +8,8 @@
 // expected to create their own fifo structures based off of the base f. Take
 // care in using these, it is absolutely possible to write/read data to/from the
 // wrong f. It is recommended that you use size defines for defining and
-// initializing structures.
+// initializing structures. Buffers must have room allocated for one extra
+// element.
 
 #include "fifo.h"
 
@@ -29,7 +30,7 @@ int get_fifo_len(struct fifo *f)
 
     // Check if f has wrapped around
     if (diff < 0)
-	diff += f->len;
+	diff += (f->len + 1)*f->elem_size;
 
     return diff/f->elem_size;
 }
@@ -47,7 +48,7 @@ int read_fifo(struct fifo *f, uint16_t *loc)
 	*loc++ = *f->r++;
 
     // check if read pointer is outside buffer
-    if (f->r > f->buf + (f->len * f->elem_size))
+    if (f->r > f->buf + ((f->len + 1) * f->elem_size))
 	f->r = f->buf;
 
     return 0;
@@ -57,13 +58,13 @@ int read_fifo(struct fifo *f, uint16_t *loc)
 int write_fifo(struct fifo *f, uint16_t *loc)
 {
     // Return -1 if full
-    if (f->w == f->r - f->elem_size)
+    if (get_fifo_len(f) == f->len)
 	return -1;
 
     // Transfer Element
     int i;
     for (i = 0; i < f->elem_size; i++)
-	*f->w++ = *loc;
+	*f->w++ = *loc++;
 
     // Check if write pointer is outside buffer
     if (f->w > f->buf + (f->len * f->elem_size))
