@@ -41,8 +41,8 @@ static struct fifo rx_fifo, tx_fifo;
 int init_phy(void)
 {
     // initialize fifo objects
-    init_fifo(&rx_fifo, &rx_buf, BUFLEN, DATAGRAM_WORDS);
-    init_fifo(&tx_fifo, &tx_buf, BUFLEN, DATAGRAM_WORDS);
+    init_fifo(&rx_fifo, rx_buf, BUFLEN, DATAGRAM_WORDS);
+    init_fifo(&tx_fifo, tx_buf, BUFLEN, DATAGRAM_WORDS);
 
     // Point assign interface pointers
     RX_PHY = &rx_fifo;

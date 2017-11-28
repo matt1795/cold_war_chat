@@ -10,12 +10,13 @@
 // the datagram.
 
 #include "err.h"
+#include "phy.h"
 
 // buffers
 static uint16_t rx_stage[DG_WORDS];
 static uint16_t tx_stage[DG_WORDS];
-static uint16_t rx_buf[(DG_WORDS - 1)*BUFLEN];
-static uint16_t tx_buf[(DG_WORDS - 1)*BUFLEN];
+static uint16_t rx_buf[(DG_WORDS - 1)*(BUFLEN + 1)];
+static uint16_t tx_buf[(DG_WORDS - 1)*(BUFLEN + 1)];
 
 // fifos
 static struct fifo rx_fifo, tx_fifo;
@@ -36,7 +37,10 @@ void init_err(void)
 void check_datagram(void)
 {
     // wait for datagrams from phy
-    
+    #ifdef FOR_REAL
+
+    #endif
+
     // Load datagram into staging buffer
     read_fifo(RX_PHY, rx_stage);
 
@@ -44,7 +48,7 @@ void check_datagram(void)
     int i;
     uint16_t check = 0;
     
-    for (i = 0; i = DG_WORDS - 1; i++)
+    for (i = 0; i < DG_WORDS; i++)
 	check += rx_stage[i];
 
     // if zero then it is correct, continue moving
@@ -57,6 +61,9 @@ void check_datagram(void)
 void calc_checksum(void)
 {
     // wait for datagrams from above
+    #ifdef FOR_REAL
+
+    #endif
 
     // Load datagram into staging buffer
     read_fifo(TX_ERR, tx_stage);
@@ -65,14 +72,14 @@ void calc_checksum(void)
     int i;
     uint16_t check = 0;
 
-    for (i = 0; i < DG_WORDS - 2; i++)
-	check += tx_buf[i];
+    for (i = 0; i < DG_WORDS - 1; i++)
+	check += tx_stage[i];
 
     // Two's complement
-    check ~= check;
+    check = ~check;
     check++;
-    tx_buf[DG_WORDS-1] = check;
+    tx_stage[DG_WORDS-1] = check;
 
     // send to phy later
-    write_FIFO(TX_PHY, tx_buf);
+    write_fifo(TX_PHY, tx_stage);
 }

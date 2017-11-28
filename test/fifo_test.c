@@ -67,4 +67,5 @@ int main(void)
     
     
     printf("FIFO Test - Success\n");
+    return 0;
 }
