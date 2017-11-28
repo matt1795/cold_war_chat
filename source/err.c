@@ -26,7 +26,7 @@ void init_err(void)
 {
     // Initialize fifo objects
     init_fifo(&rx_fifo, rx_buf, BUFLEN, DG_WORDS - 1);
-    init_fifo(&tx_fifo, rx_buf, BUFLEN, DG_WORDS - 1);
+    init_fifo(&tx_fifo, tx_buf, BUFLEN, DG_WORDS - 1);
 
     // Initialize interface pointers
     RX_ERR = &rx_fifo;

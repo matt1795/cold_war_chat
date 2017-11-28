@@ -48,7 +48,7 @@ int read_fifo(struct fifo *f, uint16_t *loc)
 	*loc++ = *f->r++;
 
     // check if read pointer is outside buffer
-    if (f->r > f->buf + ((f->len + 1) * f->elem_size))
+    if (f->r >= f->buf + ((f->len + 1) * f->elem_size))
 	f->r = f->buf;
 
     return 0;
@@ -67,7 +67,7 @@ int write_fifo(struct fifo *f, uint16_t *loc)
 	*f->w++ = *loc++;
 
     // Check if write pointer is outside buffer
-    if (f->w > f->buf + (f->len * f->elem_size))
+    if (f->w >= f->buf + ((f->len + 1) * f->elem_size))
 	f->w = f->buf;
 
     return 0;
