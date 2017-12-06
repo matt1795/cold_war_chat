@@ -10,10 +10,10 @@
 #ifndef TRANSPORT_H
 #define TRANSPORT_H
 
-#include "err.h"
+#include "fifo.h"
 
 // Interface Pointers
-struct fifo *RX_TRAN, TX_TRAN;
+extern struct fifo *RX_TRAN, *TX_TRAN;
 
 // Layer Initialization
 void init_transport();

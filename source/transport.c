@@ -7,6 +7,7 @@
 // The transport layer of this stack provides two services, connection
 // establishment and reliable data transfer. Connection Establishment will
 
+#include "global_def.h"
 #include "transport.h"
 #include "err.h"
 

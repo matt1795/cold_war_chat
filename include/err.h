@@ -12,10 +12,14 @@
 #ifndef ERR_H_
 #define ERR_H_
 
+#include <ti/sysbios/knl/Semaphore.h>
 #include "fifo.h"
 
+// Semaphores
+extern const Semaphore_Handle tx_err_sem, rx_err_sem;
+
 // interface fifos
-struct fifo *RX_ERR, *TX_ERR;
+extern struct fifo *RX_ERR, *TX_ERR;
 
 // Initialize Error detection layer
 void init_err(void);

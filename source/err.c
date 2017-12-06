@@ -9,6 +9,12 @@
 // the checksum of incoming messages and calculate and append the checksum to
 // the datagram.
 
+
+#include <ti/sysbios/knl/Task.h>
+#include <ti/sysbios/BIOS.h>
+
+#include "DSP2802x_Device.h"
+#include "global_def.h"
 #include "err.h"
 #include "phy.h"
 
@@ -20,6 +26,7 @@ static uint16_t tx_buf[(DG_WORDS - 1)*(BUFLEN + 1)];
 
 // fifos
 static struct fifo rx_fifo, tx_fifo;
+struct fifo *RX_ERR, *TX_ERR;
 
 // Initialize Error detection layer
 void init_err(void)
@@ -36,50 +43,55 @@ void init_err(void)
 // check incoming datagram
 void check_datagram(void)
 {
-    // wait for datagrams from phy
-    #ifdef FOR_REAL
+    while (TRUE) {
+        // wait for datagrams from phy
+        Semaphore_pend(rx_phy_sem, BIOS_WAIT_FOREVER);
 
-    #endif
-
-    // Load datagram into staging buffer
-    read_fifo(RX_PHY, rx_stage);
-
-    // Calculate the checksum
-    int i;
-    uint16_t check = 0;
+        // Load datagram into staging buffer
+        read_fifo(RX_PHY, rx_stage);
     
-    for (i = 0; i < DG_WORDS; i++)
-	check += rx_stage[i];
-
-    // if zero then it is correct, continue moving
-    if (!check)
-	write_fifo(RX_ERR, rx_stage);
+        // Calculate the checksum
+        int i;
+        uint16_t check = 0;
         
+        for (i = 0; i < DG_WORDS; i++)
+            check += rx_stage[i];
+
+        // if zero then it is correct, continue moving
+        if (!check) {
+            while (write_fifo(RX_ERR, rx_stage))
+                Task_yield();
+            Semaphore_post(rx_err_sem);
+
+        }
+    }
 }
 
 // add checksum to outgoing checksum
 void calc_checksum(void)
 {
-    // wait for datagrams from above
-    #ifdef FOR_REAL
+    while (TRUE) {
+        // wait for datagrams from above
+        Semaphore_pend(tx_err_sem, BIOS_WAIT_FOREVER);
 
-    #endif
+        // Load datagram into staging buffer
+        read_fifo(TX_ERR, tx_stage);
 
-    // Load datagram into staging buffer
-    read_fifo(TX_ERR, tx_stage);
+        // Calculate checksum
+        int i;
+        uint16_t check = 0;
 
-    // Calculate checksum
-    int i;
-    uint16_t check = 0;
+        for (i = 0; i < DG_WORDS - 1; i++)
+        check += tx_stage[i];
 
-    for (i = 0; i < DG_WORDS - 1; i++)
-	check += tx_stage[i];
+        // Two's complement
+        check = ~check;
+        check++;
+        tx_stage[DG_WORDS-1] = check;
 
-    // Two's complement
-    check = ~check;
-    check++;
-    tx_stage[DG_WORDS-1] = check;
-
-    // send to phy later
-    write_fifo(TX_PHY, tx_stage);
+        // send to phy later
+        while(write_fifo(TX_PHY, tx_stage))
+            Task_yield();
+        Semaphore_post(tx_phy_sem);
+    }
 }

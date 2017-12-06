@@ -12,11 +12,13 @@
 
 #include "fifo.h"
 
+#define KEY_WORDS 8
+
 // Private Key
-uint16_t *key;
+extern uint16_t *KEY;
 
 // Message FIFO's
-struct fifo *TX_AES, *RX_AES;
+extern struct fifo *TX_AES, *RX_AES;
 
 // initialize the layer
 void init_aes(void);

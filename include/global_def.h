@@ -14,4 +14,6 @@
 #define MSG_WORDS 8
 #define BUFLEN 4
 
+#define FOR_REAL
+
 #endif

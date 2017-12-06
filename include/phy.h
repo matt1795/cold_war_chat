@@ -14,29 +14,33 @@
 #ifndef PHY_H
 #define PHY_H
 
-#include "stdint.h"
-#include "global_def.h"
+#include <ti/sysbios/knl/Semaphore.h>
 #include "fifo.h"
 
-// Semaphore controlling whether RX or TX has channel
-int sem_channel;
+
+// Semaphores
+extern const Semaphore_Handle channel, tx_phy_sem, rx_phy_sem, tx_delay_sem;
+
 
 // FIFO pointers
-struct fifo *RX_PHY, *TX_PHY;
+extern struct fifo *RX_PHY, *TX_PHY;
 
 // Initialize physical layer
-int init_phy(void);
+void init_phy(void);
 
 // RX GPIO HWI
-void hwi_rx_gpio(void);
+void hwi_rx_packet(void);
 
 // Timer1 HWI
 void hwi_timer(void);
 
 // RX Software Interrupt
-void swi_rx_gpio(void);
+void swi_rx_packet(void);
 
 // Timer Software Interrupt
-void swi_timer(void);
+void swi_phy_timer(void);
+
+// transmit setup task
+void task_transmit_setup(void);
 
 #endif

@@ -30,7 +30,7 @@ int get_fifo_len(struct fifo *f)
 
     // Check if f has wrapped around
     if (diff < 0)
-	diff += (f->len + 1)*f->elem_size;
+        diff += (f->len + 1)*f->elem_size;
 
     return diff/f->elem_size;
 }
@@ -45,11 +45,11 @@ int read_fifo(struct fifo *f, uint16_t *loc)
     // Transfer Element
     int i;
     for (i = 0; i < f->elem_size; i++)
-	*loc++ = *f->r++;
+        *loc++ = *f->r++;
 
     // check if read pointer is outside buffer
     if (f->r >= f->buf + ((f->len + 1) * f->elem_size))
-	f->r = f->buf;
+        f->r = f->buf;
 
     return 0;
 }
@@ -59,16 +59,16 @@ int write_fifo(struct fifo *f, uint16_t *loc)
 {
     // Return -1 if full
     if (get_fifo_len(f) == f->len)
-	return -1;
+        return -1;
 
     // Transfer Element
     int i;
     for (i = 0; i < f->elem_size; i++)
-	*f->w++ = *loc++;
+        *f->w++ = *loc++;
 
     // Check if write pointer is outside buffer
     if (f->w >= f->buf + ((f->len + 1) * f->elem_size))
-	f->w = f->buf;
+        f->w = f->buf;
 
     return 0;
 }

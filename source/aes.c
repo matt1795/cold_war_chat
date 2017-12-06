@@ -7,6 +7,7 @@
 // This layer encrypts and decrypts incoming and outgoing messages using
 // AES-128. This layer is limited to 16-byte messagesd
 
+#include "global_def.h"
 #include "aes.h"
 #include "transport.h"
 
@@ -22,13 +23,13 @@ static struct fifo rx_fifo, tx_fifo;
 void init_aes(void)
 {
     // Initialize FIFO Objects
-    init_fifo(&rx_fifo, BUFLEN, MSG_WORDS);
-    init_fifo(&tx_fifo, BUFLEN, MSG_WORDS);
+    init_fifo(&rx_fifo, rx_buf, BUFLEN, MSG_WORDS);
+    init_fifo(&tx_fifo, tx_buf, BUFLEN, MSG_WORDS);
 
     // Initialize Interface Pointers
-    RX_AES = &rx_buf;
-    TX_AES = &tx_buf;
-    KEY = &key_buf;
+    RX_AES = &rx_fifo;
+    TX_AES = &tx_fifo;
+    KEY = key_buf;
 }
 
 // Encrypt message task
