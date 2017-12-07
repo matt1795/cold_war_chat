@@ -22,6 +22,9 @@
 extern const Semaphore_Handle channel, tx_phy_sem, rx_phy_sem, tx_delay_sem;
 
 
+extern uint16_t post_buf;
+extern uint16_t stage_buf[DG_WORDS];
+
 // FIFO pointers
 extern struct fifo *RX_PHY, *TX_PHY;
 
